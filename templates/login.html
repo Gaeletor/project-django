@@ -1,49 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
 
+{% if request.user.is_authenticated %}
+    <p>Bienvenido, {{ request.user.username }}</p>
+    <a href="{% url 'logout' %}">Cerrar sesion</a>
+{% else %}
+    <h2>Iniciar sesion</h2>
 
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
+    {% if form.errors %}
+        <p style="color: red;">Usuario o contrasena incorrectos.</p>
+    {% endif %}
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Entrar</button>
+    </form>
 
-<link href="https://getbootstrap.com/docs/5.0/examples/sign-in/signin.css" rel="stylesheet">
-  <form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <img class="mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    <p>No tienes cuenta? <a href="{% url 'register' %}">Registrate aqui</a></p>
+{% endif %}
 
-    <div class="form-floating">
-      <input type="text" class="form-control"
-             id="floatingInput"
-             placeholder="Nombre de Usuario"
-             name="username"
-      >
-      <label for="floatingInput">Usuario</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control"
-             id="floatingPassword"
-             placeholder="Contraseña"
-             name="password"
-      >
-      <label for="floatingPassword">Password</label>
-    </div>
-
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
-  </form>
+</body>
+</html>

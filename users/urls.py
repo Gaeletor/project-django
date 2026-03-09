@@ -1,9 +1,15 @@
+from django.contrib import admin
 from django.urls import path
-from users.views import get_user, inicio, acerca_de, list_products
+from django.contrib.auth.views import LoginView, LogoutView
+from users.views import index, inicio, register, acerca_de
 
 urlpatterns = [
-    path('usuario/', get_user, name='user'),
-    path('cliente/', inicio, name='inicio'),
-    path('acerca_de/', acerca_de, name='acerca_de'),
-    path('productos/', list_products, name='list_products'),
+    path('admin/', admin.site.urls),
+    path('', inicio, name='inicio'),
+    path('index/', index, name='index'),
+    path('inicio/', inicio, name='inicio'),
+    path('login/', LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('register/', register, name='register'),
+    path('acerca-de/', acerca_de, name='acerca_de'),
 ]
