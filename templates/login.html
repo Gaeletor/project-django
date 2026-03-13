@@ -25,5 +25,14 @@
     <p>No tienes cuenta? <a href="{% url 'register' %}">Registrate aqui</a></p>
 {% endif %}
 
+<!-- Dentro de tu template de login -->
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Iniciar sesión</button>
+</form>
+
+<p><a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a></p>
+<p>¿No tienes cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>
 </body>
 </html>

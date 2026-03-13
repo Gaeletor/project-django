@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
 from users.views import index, inicio, register, acerca_de
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,4 +29,39 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', register, name='register'),
     path('acerca-de/', acerca_de, name='acerca_de'),
+# Paso 1: Formulario para ingresar email
+    path(
+        'password-reset/',
+        auth_views.PasswordResetView.as_view(
+            template_name='registration/password_reset.html'
+        ),
+        name='password_reset'
+    ),
+
+    # Paso 2: Confirmación de que el email fue enviado
+    path(
+        'password-reset/done/',
+        auth_views.PasswordResetDoneView.as_view(
+            template_name='registration/password_reset_done.html'
+        ),
+        name='password_reset_done'
+    ),
+
+    # Paso 3: Formulario para nueva contraseña (enlace del email)
+    path(
+        'password-reset-confirm/<uidb64>/<token>/',
+        auth_views.PasswordResetConfirmView.as_view(
+            template_name='registration/password_reset_confirm.html'
+        ),
+        name='password_reset_confirm'
+    ),
+
+    # Paso 4: Confirmación final
+    path(
+        'password-reset-complete/',
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name='registration/password_reset_complete.html'
+        ),
+        name='password_reset_complete'
+    ),
 ]
