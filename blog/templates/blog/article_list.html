@@ -1,0 +1,32 @@
+<h2>Artículos</h2>
+
+{% if perms.blog.add_article %}
+    <a href="{% url 'article_create' %}">Nuevo artículo</a>
+{% endif %}
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for article in articles %}
+        <tr>
+            <td>{{ article.title }}</td>
+            <td>{{ article.author.username }}</td>
+            <td>
+                {% if perms.blog.delete_article %}
+                    <a href="{% url 'article_delete' article.pk %}">Eliminar</a>
+                {% endif %}
+
+                {% if perms.blog.publish_article and not article.published %}
+                    <a href="{% url 'article_publish' article.pk %}">Publicar</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
